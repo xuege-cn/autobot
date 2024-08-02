@@ -189,24 +189,25 @@ const createRefsMemberExpression = (t, path, refName) => {
   const memberExpression = isOptional
     ? t.optionalMemberExpression
     : t.memberExpression;
-  // const newExpression = memberExpression(
-  //   memberExpression(
-  //     t.identifier("refs"),
-  //     computed ? refName : t.identifier(refName),
-  //     computed,
-  //     isOptional
-  //   ),
-  //   computed ? t.stringLiteral("value") : t.identifier("value"),
-  //   computed,
-  //   isOptional
-  // );
-
   const newExpression = memberExpression(
-    t.identifier("refs"),
+    memberExpression(
+      t.identifier("refs"),
+      // computed ? t.stringLiteral("value") : t.identifier("value"),
+      t.identifier("value"),
+      false,
+      isOptional
+    ),
     computed ? refName : t.identifier(refName),
     computed,
     isOptional
   );
+
+  // const newExpression = memberExpression(
+  //   t.identifier("refs"),
+  //   computed ? refName : t.identifier(refName),
+  //   computed,
+  //   isOptional
+  // );
   path.parentPath.replaceWith(newExpression);
 };
 
@@ -216,7 +217,7 @@ const createRefsVariableDeclarations = (t) => {
   const refsDeclaration = t.variableDeclaration("const", [
     t.variableDeclarator(
       t.identifier("refs"),
-      t.callExpression(t.identifier("ref"), [])
+      t.callExpression(t.identifier("ref"), [t.identifier("{}")])
     ),
   ]);
 
@@ -231,7 +232,7 @@ const createRefsVariableDeclarations = (t) => {
             t.assignmentExpression(
               "=",
               t.memberExpression(
-                t.identifier("refs"),
+                t.memberExpression(t.identifier("refs"), t.identifier("value")),
                 t.identifier("name"),
                 true // computed property
               ),
