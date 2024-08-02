@@ -1,0 +1,23 @@
+{
+  "dataIdentifiers": [
+    "loading",
+    "boardData",
+    "type"
+  ],
+  "propsIdentifiers": [
+    "value",
+    "initCityCode",
+    "isAllRegions",
+    "searchParams"
+  ],
+  "computedIdentifiers": [
+    "selectedTimeRange"
+  ],
+  "methodsIdentifiers": [
+    "handleItemClick",
+    "onSearch"
+  ],
+  "watchesIdentifiers": [
+    "selectedTimeRange"
+  ]
+}
